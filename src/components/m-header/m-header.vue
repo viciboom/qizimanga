@@ -4,7 +4,7 @@
       <i class="icon-home3 icon"></i>
     </router-link>
     <h1 class="text">奇子 MANGA</h1>
-    <router-link tag="div" class="mine" to="/user">
+    <router-link tag="div" class="mine" to="/search">
       <i class="icon-search2 icon"></i>
     </router-link>
   </div>
