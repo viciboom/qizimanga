@@ -3,8 +3,8 @@
         <scroll class="scroll" :data="specialList">
             <div>
             <div class="img-wrapper" v-for="item in specialList">
-                <img class="img" :src="item.img">
-                <p class="title">{{ item.imgTitle}}</p>
+                <img class="img" :src="item.subpic">
+                <p class="title">{{ item.subjectname}}</p>
             </div>
             </div>
         </scroll>
@@ -33,10 +33,18 @@
             }
         },
         created () {
-
+            this.getSpecialList()
         },
         methods: {
-
+            getSpecialList () {
+                let _this = this;
+                this.specialList = []
+                _this.$http.get('/test').then((res)=>{
+                    _this.specialList = res.data
+                },(err)=>{
+                    console.log(err);
+                })
+            }
         },
         components: {
             Scroll

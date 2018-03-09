@@ -8,7 +8,7 @@
                     </div>
                     <div class="text">
                         <h2 class="name">漫画名：{{ item.mangaName }}</h2>
-                        <p class="desc">作者：{{ item.author }}</p>
+                        <p class="name">作者：{{ item.author }}</p>
                         <p class="desc">简介：{{ item.desc }}</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
               overflow : hidden;
               text-overflow: ellipsis;
               display: -webkit-box;
-              -webkit-line-clamp: 2;
+              -webkit-line-clamp: 4;
               -webkit-box-orient: vertical;
               color: $color-text
 </style>

@@ -5,8 +5,8 @@
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for="item in recommends">
-              <a :href="item.linkUrl">
-                <img class="needsclick" @load="loadImage" :src="item.picUrl">
+              <a :href="item.subpic">
+                <img class="needsclick" @load="loadImage" :src="item.subpic">
               </a>
             </div>
           </slider>
@@ -37,24 +37,7 @@
   export default {
     data () {
       return {
-        recommends: [
-            {
-                linkUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg',
-                picUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg'
-            },
-            {
-                linkUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg',
-                picUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg'
-            },
-            {
-                linkUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg',
-                picUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg'
-            },
-            {
-                linkUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg',
-                picUrl: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg'
-            }
-        ],
+        recommends: [],
         discList: [
             {
                 title: '远古巨鱼',
@@ -94,7 +77,7 @@
       }
     },
     created () {
-
+      this.getData()
     },
     methods: {
       loadImage () {
@@ -102,7 +85,17 @@
           this.$refs.scroll.refresh()
           this.checkLoaded = true
         }
+      },
+      getData(){
+        let _this = this;
+        this.recommends = []
+        _this.$http.get('/test').then((res)=>{
+          _this.recommends = res.data
+        },(err)=>{
+          console.log(err);
+        })
       }
+
     },
     components: {
       Slider,
