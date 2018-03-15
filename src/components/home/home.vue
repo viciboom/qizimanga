@@ -91,6 +91,7 @@
         this.recommends = []
         _this.$http.get('/test').then((res)=>{
           _this.recommends = res.data
+          console.log(res.data)
         },(err)=>{
           console.log(err);
         })
