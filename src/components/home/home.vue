@@ -40,23 +40,6 @@
         recommends: [],
         discList: [
             {
-                title: '远古巨鱼',
-                comicList: [
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    }
-                ]
-            },
-            {
                 title: '手冢治虫',
                 comicList: [
                     {
@@ -64,12 +47,29 @@
                         mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
                     },
                     {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
+                        mangaName: '怪物王女',
+                        mangaPic: 'https://img3.doubanio.com/mpic/s2894690.jpg'
                     },
                     {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
+                        mangaName: '阿瓦斯',
+                        mangaPic: 'https://img3.doubanio.com/mpic/s29592674.jpg'
+                    }
+                ]
+            },
+            {
+                title: '浅野一二0',
+                comicList: [
+                    {
+                        mangaName: 'SOLANIN',
+                        mangaPic: 'https://img3.doubanio.com/mpic/s27206186.jpg'
+                    },
+                    {
+                        mangaName: '光之城',
+                        mangaPic: 'https://img3.doubanio.com/mpic/s2851336.jpg'
+                    },
+                    {
+                        mangaName: 'I"s',
+                        mangaPic: 'https://img1.doubanio.com/mpic/s2725548.jpg'
                     }
                 ]
             }

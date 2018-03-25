@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-// import store from './store/'
+import store from './store/'
 import Mint from 'mint-ui'
 import 'common/stylus/index.styl'
 import VueLazyLoad from 'vue-lazyload'
@@ -38,20 +38,20 @@ Vue.prototype.$http = axios
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'; */
 // 处理刷新的时候vuex被清空但是用户已经登录的情况
 if (window.sessionStorage.userInfo) {
-  // store.dispatch('setUserInfo', JSON.parse(window.sessionStorage.userInfo))
+  store.dispatch('setUserInfo', JSON.parse(window.sessionStorage.userInfo))
 }
 
 // 登录中间验证，页面需要登录而没有登录的情况直接跳转登录
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // if (store.state.userInfo.user_id) {
-    //   next()
-    // } else {
-    //   next({
-    //     path: '/login',
-    //     query: { redirect: to.fullPath }
-    //   })
-    // }
+    if (store.state.userInfo.user_id) {
+      next()
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
     console.log('================')
   } else {
     console.log('nnnnnnnnnnnnnnnnnn')
@@ -64,6 +64,6 @@ Vue.use(Mint)
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
-  // store
+  router,
+  store
 })

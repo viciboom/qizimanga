@@ -1,165 +1,166 @@
 <template>
-  <div class="recommend">
-    <scroll ref="scroll" class="recommend-content" :data="discList">
-      <div>
-        <div v-if="recommends.length" class="slider-wrapper">
-          <slider>
-            <div v-for="item in recommends">
-              <a :href="item.subpic">
-                <img class="needsclick" @load="loadImage" :src="item.subpic">
-              </a>
-            </div>
-          </slider>
-        </div>
-        <div v-for="item in discList" class="home-wrapper">
-            <div class="part-title">
-                <h2 class="part-text">{{ item.title }}</h2>
-                <i class="icon-right_arrow_b"></i>
-            </div>
-            <ul class="content-wrapper">
-              <li class="manga-wrapper" v-for="item1 in item.comicList">
-                <img class="manga-img" :src="item1.mangaPic">
-                <p class="manga-text">{{ item1.mangaName }}</p>
-              </li>
-            </ul>
-        </div>
+  <div class="wrapper">
+    <div class="header">
+      <i class="icon-undo" @click="back()"></i>
+      个人信息
+    </div>
+    <div class="toppic">
+      <img :src="userCover" class="uercover">
+      <div class="userpic-wrapper">
+        <img class="userpic" :src="avatar">
       </div>
-    </scroll>
+    </div>
+    <div class="content">
+      <div class="content-wrapper">
+        <div class="item">
+          <span class="text">手机号：</span>
+          <input class="user-input" v-model="phone">
+        </div>
+        <div class="item">
+          <span class="text">用户名：</span>
+          <input class="user-input" v-model="username">
+        </div>
+        <div class="item">
+          <span class="text">性别：</span>
+          <mt-radio v-model="gender" :options="['男', '女']" class="user-input">
+          </mt-radio>
+        </div>
+        <div class="item">
+          <span class="text">签名：</span>
+          <textarea class="user-input" v-model="info"></textarea>
+        </div>
+        <button class="button" @click="change('id')">修改密码</button>
+        <button class="button" @click="myfavor('id')">我的收藏</button>
+        <button class="button" @click="save('id')">保 存</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import Scroll from 'base/scroll/scroll'
-  import Slider from 'base/slider/slider'
+import Scroll from 'base/scroll/scroll'
+import {mapGetters,mapActions} from 'vuex';
 //   import {getRecommend, getDiscList} from 'api/recommend'
-//   import {ERR_OK} from 'api/config'
 
   export default {
     data () {
       return {
-        recommends: [],
-        discList: [
-            {
-                title: '远古巨鱼',
-                comicList: [
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    }
-                ]
-            },
-            {
-                title: '手冢治虫',
-                comicList: [
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    },
-                    {
-                        mangaName: '奇子',
-                        mangaPic: 'https://img3.doubanio.com/lpic/s3404982.jpg'
-                    }
-                ]
-            }
-        ]
+        id: '1',
+        userCover: require('@/assets/userinfo.jpg'),
+        avatar: 'https://img1.doubanio.com/view/subject/m/public/s29125828.jpg',
+        phone: '',
+        username: '',
+        gender: '',
+        info: ''
       }
     },
     created () {
-      this.getData()
+      this.$store.dispatch('hideNav');
     },
     methods: {
-      loadImage () {
-        if (!this.checkLoaded) {
-          this.$refs.scroll.refresh()
-          this.checkLoaded = true
-        }
+      //返回
+      back () {
+        this.$router.go(-1)
       },
-      getData(){
-        let _this = this;
-        this.recommends = []
-        _this.$http.get('/test').then((res)=>{
-          _this.recommends = res.data
-        },(err)=>{
-          console.log(err);
-        })
-      }
 
+      //修改密码跳转
+      change () {
+        this.$router.push({
+            path: `/password`,
+            query: this.id
+        })
+      },
+
+      //我的收藏跳转
+      myfavor () {
+        this.$router.push({
+            path: `/favor`,
+            query: this.id
+        })
+      },
+
+      //保存
+      save () {
+
+      }
     },
     components: {
-      Slider,
       Scroll
-    }
+    },
+    computed:mapGetters(['loading','shownav']),
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-
-  .recommend
-    position: fixed
-    width: 100%
-    top: 88px
-    bottom: 0
-    .recommend-content
-      height: 100%
-      overflow: hidden
-      .slider-wrapper
-        position: relative
-        width: 100%
-        overflow: hidden
-      .loading-container
+  .wrapper
+    width: 100%;
+    .header
+      height: 44px
+      margin: 0 auto
+      padding-right: 10px;
+      text-align: center
+      color: $color-theme-d
+      font-size: 18px
+      line-height: 44px
+      border-bottom: 1px solid $color-theme-d
+      .icon-undo
+        float: left
+        height: 44px
+        line-height: 44px
+        padding-left: 10px;
+    .toppic
+      width: 100%
+      height: 45%
+      .uercover
         position: absolute
         width: 100%
-        top: 50%
-        transform: translateY(-50%)
-      .home-wrapper
+        height: 45%
+        background-size: cover
+      .userpic-wrapper
+        z-index: 50
         width: 100%
-        height: auto
-        .part-title
+        text-align: center
+        .userpic
+          position: relative
+          width: 135px
+          height: 135px
+          margin: 60px auto 0 auto
+          border: 1px solid $color-theme
+          color: $color-theme
+          border-radius: 100%
+    .content
+      width: 100%
+      margin-top:100px
+      .content-wrapper
+        padding: 20px;
+        .item
+          display: flex
+          padding: 5px
+          box-sizing: border-box
+          align-items: center
+          .mint-cell-title
+            display: inline-block
+          .text
+            flex: 0 0 83px
+            width: 83px
+          .user-input
+              display: flex
+              flex-direction: column
+              justify-content: center
+              flex: 1
+              line-height: 20px
+              overflow: hidden
+              font-size: $font-size-medium
+        .button
           width: 100%
           height: 35px
-          line-height: 35px
+          margin: 5px
+          line-height 35px
+          font-size: $font-size-medium
+          color: $color-theme
           background-color: $color-theme-d
-          .part-text
-            display: inline-block
-            color: $color-theme
-            margin-left: 10px
-          .icon-right_arrow_b
-            display: inline-block
-            margin-left: 70%
-            color: $color-theme
-        .content-wrapper
-          margin: 0
-          .manga-wrapper
-            display: inline-block
-            width: 30%
-            margin: 1% -1% 0% 3%;
-            padding: 0
-            .manga-img
-              display: block
-              position: relative
-              width: 100%
-              min-height: 100px !important
-              background-color: #ededed
-              border-radius: 2px;
-            .manga-text
-              color: #000;
-              display: block;
-              line-height: 15px;
-              height: 15px;
-              padding-top: 5px;
-              overflow: hidden;
-              font-size: $font-size-small
+          border: none
+          border-radius: 10px
+          
 </style>

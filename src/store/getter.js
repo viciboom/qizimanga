@@ -1,11 +1,11 @@
 export default {
     loading: (state) => {
-        return state.isShow;
+        return state.isShow
     },
     shownav: (state) => {
-        return state.isNavShow;
+        return state.isNavShow
     },
     getUserInfo: (state) => {
-        return state.userInfo;
+        return state.userInfo
     }
 }

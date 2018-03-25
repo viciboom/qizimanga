@@ -22,56 +22,63 @@
                     {
                         classifyPic: require('@/assets/qingnian.jpg'),
                         classifyName: '青年',
-                        classifyId: '1'
+                        classifyId: '0'
                     },
                     {
                         classifyPic: require('@/assets/shaonian.jpg'),
-                        classifyName: '少年'
+                        classifyName: '少年',
+                        classifyId: '1'
                     },
                     {
                         classifyPic: require('@/assets/shaonv.jpg'),
-                        classifyName: '少女'
+                        classifyName: '少女',
+                        classifyId: '2'
                     },
                     {
                         classifyPic: require('@/assets/maoxian.jpg'),
-                        classifyName: '冒险'
+                        classifyName: '冒险',
+                        classifyId: '3'
                     },
                     {
                         classifyPic: require('@/assets/mofa.jpg'),
-                        classifyName: '魔法'
+                        classifyName: '魔法',
+                        classifyId: '4'
                     },
                     {
                         classifyPic: require('@/assets/lianai.jpg'),
-                        classifyName: '恋爱'
+                        classifyName: '恋爱',
+                        classifyId: '5'
                     },
                     {
                         classifyPic: require('@/assets/gaoxiao.jpg'),
-                        classifyName: '搞笑'
+                        classifyName: '搞笑',
+                        classifyId: '6'
                     },
                     {
                         classifyPic: require('@/assets/oumei.jpg'),
-                        classifyName: '欧美'
+                        classifyName: '欧美',
+                        classifyId: '7'
                     },
                     {
                         classifyPic: require('@/assets/xuanyi.jpg'),
-                        classifyName: '悬疑'
+                        classifyName: '悬疑',
+                        classifyId: '8'
                     },
                     {
                         classifyPic: require('@/assets/zhentan.jpg'),
-                        classifyName: '侦探'
+                        classifyName: '侦探',
+                        classifyId: '9'
                     },
                     {
                         classifyPic: require('@/assets/meishi.jpg'),
-                        classifyName: '美食'
+                        classifyName: '美食',
+                        classifyId: '10'
                     },
                     {
                         classifyPic: require('@/assets/kehuan.jpg'),
-                        classifyName: '科幻'
-                    },
-                    {
-                        classifyPic: require('@/assets/guishen.jpg'),
-                        classifyName: '鬼神'
-                    },
+                        classifyName: '科幻',
+                        classifyId: '11'
+                    }
                 ]
             }
         },

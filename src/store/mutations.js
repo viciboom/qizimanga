@@ -18,7 +18,7 @@ const mutations = {
         state.isNavShow = false
     },
     setUserInfo: (state, userInfo) => {
-        state.userInfo = userInfo;
+        state.userInfo = userInfo
     }
 }
 

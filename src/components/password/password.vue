@@ -2,14 +2,12 @@
   <div class="wrapper">
     <div class="header">
       <i class="icon-undo" @click="back()"></i>
-      注册
+      修改密码
     </div>
     <div class="pwd-content">
-        <input class="input-text" placeholder="请填写用户名">
-        <input class="input-text" placeholder="请输入手机号码">
-        <input class="input-text" placeholder="请输入密码">
-        <input class="input-text" placeholder="请确认密码">
-        <button class="button">立即注册</button>
+        <input class="input-text" placeholder="请输入原密码">
+        <input class="input-text" placeholder="请输入新密码">
+        <button class="button">确认修改</button>
     </div>
   </div>
 </template>
@@ -23,6 +21,10 @@ import {mapGetters,mapActions} from 'vuex';
     data () {
       return {
         id: '1',
+        phone: '',
+        username: '',
+        gender: '',
+        info: ''
       }
     },
     created () {
