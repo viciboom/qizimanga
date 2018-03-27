@@ -44,6 +44,8 @@ import {mapGetters,mapActions} from 'vuex';
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
+  html, body
+    height: 100%
   .wrapper
     width: 100%;
     .header
@@ -61,7 +63,10 @@ import {mapGetters,mapActions} from 'vuex';
         line-height: 44px
         padding-left: 10px
     .pwd-content
+        height: 74%
         width: 100%
+        background: url(../../assets/loginbg.jpg)
+        background-size:100% 96%
         text-align: center
         .input-text
             width: 80%

@@ -42,12 +42,15 @@ import {mapGetters,mapActions} from 'vuex';
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
+  html, body
+    height: 100%
   .wrapper
     width: 100%
+    height: 100%
     .header
       height: 44px
       margin: 0 auto
-      padding-right: 10px;
+      padding-right: 10px
       text-align: center
       color: $color-theme-d
       font-size: 18px
@@ -59,17 +62,20 @@ import {mapGetters,mapActions} from 'vuex';
         line-height: 44px
         padding-left: 10px
     .pwd-content
+        height: 75%
         width: 100%
-        height: 100%
-        background: url(../../assets/loginbg.jpg)
+        background: url(../../assets/loginbg0.jpg)
+        background-size:100%
         text-align: center
+        padding-top: 130px
         .input-text
             width: 80%
-            height: 35px
+            min-height: 35px
             margin: 10px
             line-height 35px
             font-size: $font-size-medium
             color: $color-theme
+            border-radius: 5px
         .button
             display: block
             width: 300px
