@@ -30,68 +30,7 @@ module.exports = () => {
             }
         })
     }
-
-    const getHomeStr = `SELECT product_id,product_name,product_price,product_img_url,product_uprice FROM product`
-    const getCateNames = `SELECT * FROM category ORDER BY category_id desc`
-
-    // get homePage datas
-    route.get('/home', (req, res) => {
-        getHomeDatas(getHomeStr, res)
-    })
-
-    function getHomeDatas (getHomeStr, res) {
-        db.query(getHomeStr, (err, data) => {
-            if (err) {
-                console.log(err)
-                res.status(500).send('database err').end()
-            } else {
-                if (data.length === 0) {
-                    res.status(500).send('no datas').end()
-                } else {
-                    res.send(data)
-                }
-            }
-        });
-    }
-
-    route.get('/category', (req, res) => {
-        getCateNamesDatas(getCateNames, res)
-    })
-
-    function getCateNamesDatas (getCateNames, res) {
-        db.query(getCateNames, (err, data) => {
-            if (err) {
-                console.log(err)
-                res.status(500).send('database err').end()
-            } else {
-                if (data.length === 0) {
-                    res.status(500).send('no datas').end()
-                } else {
-                    res.send(data)
-                }
-            }
-        });
-    };
-    route.get('/categorygoods', (req, res) => {
-        let mId = req.query.mId
-        const sql = `select * from product,category where product.category_id=category.category_id and category.category_id='${mId}'`
-        getCateGoods(sql, res)
-    })
-
-    function getCateGoods (sql, res) {
-        db.query(sql, (err, data) => {
-            if (err) {
-                console.log(err)
-                res.status(500).send('database err').end()
-            } else {
-                if (data.length === 0) {
-                    res.status(500).send('no datas').end()
-                } else {
-                    res.send(data)
-                }
-            }
-        });
-    }
+    //
     route.get('/detail', (req, res) => {
         let produId = req.query.mId
         const imagesStr = `select image_url from product_image where product_id='${produId}'`
@@ -111,25 +50,10 @@ module.exports = () => {
                         detailDatas.push(data)
                         res.send(detailDatas)
                     }
-                });
+                })
             }
-        });
+        })
 
-    });
-    route.get('/cart', (req, res) => {
-        const cartStr = `SELECT cart_id,user.user_id,product.product_id,product_name,product_uprice,product_img_url,goods_num,product_num,shop_name FROM product,user,goods_cart,shop where product.product_id=goods_cart.product_id and user.user_id=goods_cart.user_id and shop.shop_id = product.shop_id`
-        db.query(cartStr, (err, data) => {
-            if (err) {
-                console.log(err)
-                res.status(500).send('database err').end()
-            } else {
-                if (data.length === 0) {
-                    res.status(500).send('no datas').end()
-                } else {
-                    res.send(data)
-                }
-            }
-        });
     })
 
     route.get('/search', (req, res) => {
@@ -168,21 +92,21 @@ module.exports = () => {
                     res.send(data)
                 }
             }
-        });
+        })
     }
     /*
      *user reg func
      */
     route.post('/reg', (req, res) => {
-
         let mObj = {}
         for (let obj in req.body) {
             mObj = JSON.parse(obj)
         }
         let regName = mObj.regName
-        let regPasswd = mObj.regPasswd
-        regPasswd = common.md5(regPasswd + common.MD5_SUFFXIE)
-        const insUserInfo = `INSERT INTO user(user_name,login_password,user_number) VALUES('${regName}','${regPasswd}','${regName}')`
+        let regPhone = mObj.regPhone
+        let regPwd = mObj.regPwd
+        regPwd = common.md5(regPwd + common.MD5_SUFFXIE)
+        const insUserInfo = `INSERT INTO user(username,phone,password) VALUES('${regName}','${regPhone}','${regPwd}')`
         delReg(insUserInfo, res)
     })
     /*
@@ -204,21 +128,22 @@ module.exports = () => {
             mObj = JSON.parse(obj)
             console.log(mObj)
         }
-        let username = mObj.loginName
-        let password = common.md5(mObj.loginPawd + common.MD5_SUFFXIE)
+        let phone = mObj.loginPhone
+        let password = common.md5(mObj.loginPwd + common.MD5_SUFFXIE)
         // console.log(username, mObj.passwd);
-        const selectUser = `SELECT * FROM user where phone='${username}'`
+        const selectUser = `SELECT * FROM user where phone='${phone}'`
         db.query(selectUser, (err, data) => {
             if (err) {
                 console.log(err)
                 res.send({ 'msg': '服务器出错', 'status': 0 }).end()
             } else {
-                if (data.length === 0) {
+                if (data.length == 0) {
                     res.send({ 'msg': '该用户不存在', 'status': -1 }).end()
                 } else {
                     let dataw = data[0]
                     // login sucess
-                    if (dataw.password === password) {
+                    console.log(password)
+                    if (dataw.password == password) {
                         // save the session
                         req.session['id'] = dataw.user_id
                         dataw.msg = `登录成功`
@@ -231,9 +156,10 @@ module.exports = () => {
             }
         })
     })
+    // userinfo
     route.get('/userinfo', (req, res) => {
         let uId = req.query.uId
-        const getU = `SELECT user_name,user_number FROM user where user_id='${uId}'`
+        const getU = `SELECT * FROM user where id='${uId}'`
         db.query(getU, (err, data) => {
             if (err) {
                 console.log(err)

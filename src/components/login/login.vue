@@ -5,9 +5,10 @@
       登录
     </div>
     <div class="pwd-content">
-        <input class="input-text" placeholder="请输入手机号码">
-        <input type="password" class="input-text" placeholder="请输入密码">
-        <button class="button">登录</button>
+        <input class="input-text" v-model="phone" placeholder="请输入手机号码">
+        <input type="password" v-model="password" class="input-text" placeholder="请输入密码">
+        <button class="button" @click="goLogin()">登录</button>
+        <button class="button" @click="toReg()">注册</button>
     </div>
   </div>
 </template>
@@ -15,12 +16,13 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import {mapGetters,mapActions} from 'vuex';
-//   import {getRecommend, getDiscList} from 'api/recommend'
 
   export default {
     data () {
       return {
-        id: '1',
+        phone: '',//手机号
+        password: '',//密码
+        userInfo: {},//用户信息
       }
     },
     created () {
@@ -31,7 +33,49 @@ import {mapGetters,mapActions} from 'vuex';
       back () {
         this.$router.go(-1)
       },
+      //登录
+      goLogin(){
+				let _this = this;
+				if(_this.phone ==''){
+					alert('请输入手机号');
+				}else if(_this.password == ''){
+					alert('请输入密码');
+				}else{
+					_this.$http.post('/login',{
+						loginPhone:_this.phone,
+						loginPwd:_this.password,
+					}).then((res)=>{
+						// console.log(_this.password);
+					if(res.status == 200){
+						_this.userInfo = res.data;
+						if(_this.userInfo.status == 1){
+							//LOGIN success
+							window.sessionStorage.userInfo = JSON.stringify(_this.userInfo);
+              _this.$store.dispatch('setUserInfo', _this.userInfo);
+              console.log(_this.$store);
+              let redirect = decodeURIComponent(_this.$route.query.redirect || '/');
+              _this.$router.push({
+                  path: redirect
+              });
+						}else{
+							alert(_this.userInfo.msg);
+						}
+					}else{
+						alert('请求出现错误');
+					}
+						console.log(res);
+					},(err)=>{
+						console.log(err);
+					});
+				}
+      },
 
+      //前往注册页
+      toReg () {
+        this.$router.push({
+          path: `/reg`
+        })
+      }
     },
     components: {
       Scroll
@@ -62,7 +106,7 @@ import {mapGetters,mapActions} from 'vuex';
         line-height: 44px
         padding-left: 10px
     .pwd-content
-        height: 75%
+        height: 74%
         width: 100%
         background: url(../../assets/loginbg0.jpg)
         background-size:100%
@@ -74,7 +118,7 @@ import {mapGetters,mapActions} from 'vuex';
             margin: 10px
             line-height 35px
             font-size: $font-size-medium
-            color: $color-theme
+            color: $color-text-theme-font
             border-radius: 5px
         .button
             display: block

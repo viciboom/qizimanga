@@ -14,7 +14,7 @@
         <div v-for="item in discList" class="home-wrapper">
             <div class="part-title">
                 <h2 class="part-text">{{ item.title }}</h2>
-                <i class="icon-right_arrow_b"></i>
+                <!-- <i class="icon-right_arrow_b"></i> -->
             </div>
             <ul class="content-wrapper">
               <li class="manga-wrapper" v-for="item1 in item.comicList">
@@ -31,8 +31,6 @@
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
   import Slider from 'base/slider/slider'
-//   import {getRecommend, getDiscList} from 'api/recommend'
-//   import {ERR_OK} from 'api/config'
 
   export default {
     data () {
@@ -137,10 +135,6 @@
             display: inline-block
             color: $color-theme
             margin-left: 10px
-          .icon-right_arrow_b
-            display: inline-block
-            margin-left: 70%
-            color: $color-theme
         .content-wrapper
           margin: 0
           .manga-wrapper

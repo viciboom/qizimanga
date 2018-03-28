@@ -7,31 +7,32 @@
     <div class="toppic">
       <img :src="userCover" class="uercover">
       <div class="userpic-wrapper">
-        <img class="userpic" :src="avatar">
+        <img class="userpic" :src="userInfoData.avatar">
       </div>
     </div>
     <div class="content">
       <div class="content-wrapper">
         <div class="item">
           <span class="text">手机号：</span>
-          <input class="user-input" v-model="phone">
+          <input class="user-input" v-model="userInfoData.phone">
         </div>
         <div class="item">
           <span class="text">用户名：</span>
-          <input class="user-input" v-model="username">
+          <input class="user-input" v-model="userInfoData.username">
         </div>
         <div class="item">
           <span class="text">性别：</span>
-          <mt-radio v-model="gender" :options="['男', '女']" class="user-input">
+          <mt-radio v-model="userInfoData.gender" :options="['男', '女']" class="user-input">
           </mt-radio>
         </div>
         <div class="item">
           <span class="text">签名：</span>
-          <textarea class="user-input" v-model="info"></textarea>
+          <textarea class="user-input" v-model="userInfoData.info"></textarea>
         </div>
         <button class="button" @click="change('id')">修改密码</button>
         <button class="button" @click="myfavor('id')">我的收藏</button>
         <button class="button" @click="save('id')">保 存</button>
+        <button class="button" @click="logout()">注销</button>
       </div>
     </div>
   </div>
@@ -47,17 +48,57 @@ import {mapGetters,mapActions} from 'vuex';
       return {
         id: '1',
         userCover: require('@/assets/userinfo.jpg'),
-        avatar: 'https://img1.doubanio.com/view/subject/m/public/s29125828.jpg',
-        phone: '',
-        username: '',
-        gender: '',
-        info: ''
+        userInfoData: {
+          id: '',
+          avatar: '',
+          username: '',
+          gender: '',
+          info: ''
+        },
+        default: require('@/assets/logo.png')
       }
     },
     created () {
-      this.$store.dispatch('hideNav');
+      this.$store.dispatch('hideNav')
+      this.getUserInfo()
+    },
+    watch: {
+
     },
     methods: {
+
+      //获取用户信息
+      getUserInfo () {
+				let _this = this;
+				let uObj ={};
+				if(window.sessionStorage.userInfo){
+					let uObj = JSON.parse(window.sessionStorage.userInfo);
+					let useId = uObj.id;
+					_this.$http.get('/userinfo',{
+						params:{
+							uId:useId
+						}
+					}).then((res)=>{
+            _this.userInfoData.id = res.data.id
+            _this.userInfoData.phone = res.data.phone
+            _this.userInfoData.username = res.data.username
+            _this.userInfoData.gender = res.data.gender
+            _this.userInfoData.info = res.data.info
+            if (res.data.avatar == '' || res.data.avatar == undefined) {
+              _this.userInfoData.avatar = _this.default
+            } else {
+              _this.userInfoData.avatar = res.data.avatar
+            }
+					},(err)=>{
+						console.log(err);
+					});
+				}else{
+					_this.$router.push({
+						path:'/login',
+					})
+				}
+      },
+      
       //返回
       back () {
         this.$router.go(-1)
@@ -82,6 +123,14 @@ import {mapGetters,mapActions} from 'vuex';
       //保存
       save () {
 
+      },
+
+      //登出
+      logout () {
+        sessionStorage.removeItem('userInfo')
+        this.$router.push({
+          path: `/home`
+        })
       }
     },
     components: {
