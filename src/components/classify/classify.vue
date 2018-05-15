@@ -3,7 +3,7 @@
         <scroll class="scroll" :data="classifyList">
             <div>
                 <ul class="content-wrapper">
-                    <li class="manga-wrapper" v-for="item in classifyList">
+                    <li class="manga-wrapper" v-for="item in classifyList" @click="toList(item)">
                         <img class="manga-img" :src="item.classifyPic">
                         <p class="manga-text">{{ item.classifyName }}</p>
                     </li>
@@ -86,7 +86,15 @@
 
         },
         methods: {
-
+            toList(item) {
+                this.$router.push({
+                    path: `/classifylist`,
+                    query: {
+                        tid: item.classifyId,
+                        classifyName: item.classifyName
+                    }
+                })
+            }
         },
         components: {
             Scroll

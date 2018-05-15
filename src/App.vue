@@ -2,9 +2,7 @@
   <div id="app">
     <m-header v-if="shownav"></m-header>
     <tab v-if="shownav"></tab>
-    <keep-alive>
       <router-view></router-view>
-    </keep-alive>
   </div>
 </template>
 
@@ -21,7 +19,7 @@ export default {
         }else{
           this.$store.dispatch('showNav');
         }
-        if(to.path == '/user' || to.path == '/login' || to.path == '/reg' || to.path == '/password' || to.path == '/favor'){
+        if(to.path == '/user' || to.path == '/comments' ||to.path == '/detail' || to.path == '/login' || to.path == '/reg' || to.path == '/password' || to.path == '/favor' || to.path == '/classifylist'){
           this.$store.dispatch('hideNav');
         }
       }

@@ -3,7 +3,7 @@
         <scroll class="scroll" :data="specialList">
             <div>
             <div class="img-wrapper" v-for="item in specialList">
-                <img class="img" :src="item.subpic">
+                <img class="img" :src="item.subpic" @click="toDetail(item)">
                 <p class="title">{{ item.subjectname}}</p>
             </div>
             </div>
@@ -16,20 +16,7 @@
     export default {
         data () {
             return {
-                specialList: [
-                    {
-                        img: 'https://images.dmzj.com/tuijian/750_480/180301yuanliantj1.jpg',
-                        imgTitle: 'garo 关于猫汤'
-                    },
-                    {
-                        img: 'https://images.dmzj.com/tuijian/750_480/180305xinwentj1.jpg',
-                        imgTitle: '周刊新连载！'
-                    },
-                    {
-                        img: 'https://images.dmzj.com/tuijian/750_480/180205youxizhongxintj1.jpg',
-                        imgTitle: '骑士小说大纲'
-                    },
-                ]
+                specialList: []
             }
         },
         created () {
@@ -39,10 +26,24 @@
             getSpecialList () {
                 let _this = this;
                 this.specialList = []
-                _this.$http.get('/test').then((res)=>{
-                    _this.specialList = res.data
+                _this.$http.get('/special').then((res)=>{
+                        res.data.map(item => {
+                        let data = {}
+                        data.subpic = `http://localhost/qizipublic/public/static/subject/` + item.subpic
+                        data.subjectname = item.subjectname
+                        data.id = item.id
+                        _this.specialList.push(data)
+                    })
                 },(err)=>{
                     console.log(err);
+                })
+            },
+            toDetail (item) {
+                this.$router.push({
+                    path: `article`,
+                    query: {
+                        id: item.id
+                    }
                 })
             }
         },

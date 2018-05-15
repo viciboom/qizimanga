@@ -5,30 +5,29 @@
       修改密码
     </div>
     <div class="pwd-content">
-        <input class="input-text" placeholder="请输入原密码">
-        <input class="input-text" placeholder="请输入新密码">
-        <button class="button">确认修改</button>
+        <input class="input-text" placeholder="请输入原密码" v-model="password">
+        <input class="input-text" placeholder="请输入新密码" v-model="newpassword">
+        <button class="button" @click="checkPasswordData()">确认修改</button>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from 'base/scroll/scroll'
-import {mapGetters,mapActions} from 'vuex';
-//   import {getRecommend, getDiscList} from 'api/recommend'
+import {mapGetters,mapActions} from 'vuex'
+const common = require('../../../libs/common')
 
   export default {
     data () {
       return {
-        id: '1',
-        phone: '',
-        username: '',
-        gender: '',
-        info: ''
+        userid: '1',
+        password: '',
+        newpassword: '',
+        oldpassword: ''
       }
     },
     created () {
-      this.$store.dispatch('hideNav');
+      this.$store.dispatch('hideNav')
+      this.userid = this.$route.query.userId
     },
     methods: {
       //返回
@@ -36,9 +35,42 @@ import {mapGetters,mapActions} from 'vuex';
         this.$router.go(-1)
       },
 
+      //检查密码
+      checkPasswordData () {
+        let password = common.md5(this.password + common.MD5_SUFFXIE)
+        let _this = this
+        _this.$http.get('/checkpassword',{
+          params:{
+							userid: _this.userid
+						}
+        }).then((res)=>{
+            _this.oldpassword = res.data.password
+        },(err)=>{
+            console.log(err)
+        })
+        if (password == _this.oldpassword || _this.newpassword!= '') {
+          _this.$http.get('/uploadpassword',{
+              params: {
+                  userid: _this.userid,
+                  password: _this.newpassword
+              }
+              }).then((res)=>{
+              console.log(_this.userid + 'xxxx')
+              console.log(_this.newpassword + 'xxxx')
+              sessionStorage.removeItem('userInfo')
+              _this.$router.push({
+                path: `/home`
+              })
+          },(err)=>{
+              console.log(err);
+          })
+        } else {
+          alert('请输入正确密码')
+        }
+      }
+
     },
     components: {
-      Scroll
     },
     computed:mapGetters(['loading','shownav']),
   }
@@ -47,11 +79,11 @@ import {mapGetters,mapActions} from 'vuex';
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   .wrapper
-    width: 100%;
+    width: 100%
     .header
       height: 44px
       margin: 0 auto
-      padding-right: 10px;
+      padding-right: 10px
       text-align: center
       color: $color-theme-d
       font-size: 18px
@@ -71,7 +103,7 @@ import {mapGetters,mapActions} from 'vuex';
             margin: 10px
             line-height 35px
             font-size: $font-size-medium
-            color: $color-theme
+            color: #000
         .button
             display: block
             width: 300px

@@ -14,7 +14,7 @@
       <div class="content-wrapper">
         <div class="item">
           <span class="text">手机号：</span>
-          <input class="user-input" v-model="userInfoData.phone">
+          <input class="user-input" v-model="userInfoData.phone" disabled>
         </div>
         <div class="item">
           <span class="text">用户名：</span>
@@ -41,6 +41,7 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import {mapGetters,mapActions} from 'vuex';
+import VueCoreImageUpload  from 'vue-core-image-upload'
 //   import {getRecommend, getDiscList} from 'api/recommend'
 
   export default {
@@ -84,11 +85,12 @@ import {mapGetters,mapActions} from 'vuex';
             _this.userInfoData.username = res.data.username
             _this.userInfoData.gender = res.data.gender
             _this.userInfoData.info = res.data.info
-            if (res.data.avatar == '' || res.data.avatar == undefined) {
-              _this.userInfoData.avatar = _this.default
-            } else {
-              _this.userInfoData.avatar = res.data.avatar
-            }
+            _this.userInfoData.avatar = `http://localhost/qizipublic/public/static/avatar/0.jpg`
+            // if (res.data.avatar == '' || res.data.avatar == undefined) {
+            //   _this.userInfoData.avatar = _this.default
+            // } else {
+            //   _this.userInfoData.avatar = res.data.avatar
+            // }
 					},(err)=>{
 						console.log(err);
 					});
@@ -108,7 +110,9 @@ import {mapGetters,mapActions} from 'vuex';
       change () {
         this.$router.push({
             path: `/password`,
-            query: this.id
+            query: {
+              userId: this.id
+            }
         })
       },
 
@@ -116,13 +120,28 @@ import {mapGetters,mapActions} from 'vuex';
       myfavor () {
         this.$router.push({
             path: `/favor`,
-            query: this.id
+            query: {
+              userId: this.id
+            }
         })
       },
 
       //保存
       save () {
-
+        let _this = this
+        _this.$http.get('/updateuserinfo', {
+            params: {
+                userid: _this.userInfoData.id,
+                username: _this.userInfoData.username,
+                gender: _this.userInfoData.gender,
+                info: _this.userInfoData.info
+            }
+        }).then((res) => {
+            console.log(res)
+            alert('修改成功')
+        }, (err) => {
+            console.log(err)
+        })
       },
 
       //登出
@@ -134,7 +153,8 @@ import {mapGetters,mapActions} from 'vuex';
       }
     },
     components: {
-      Scroll
+      Scroll,
+      VueCoreImageUpload
     },
     computed:mapGetters(['loading','shownav']),
   }
@@ -143,11 +163,11 @@ import {mapGetters,mapActions} from 'vuex';
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   .wrapper
-    width: 100%;
+    width: 100%
     .header
       height: 44px
       margin: 0 auto
-      padding-right: 10px;
+      padding-right: 10px
       text-align: center
       color: $color-theme-d
       font-size: 18px
@@ -157,18 +177,20 @@ import {mapGetters,mapActions} from 'vuex';
         float: left
         height: 44px
         line-height: 44px
-        padding-left: 10px;
+        padding-left: 10px
     .toppic
       width: 100%
-      height: 45%
+      height: 43%
+      min-height: 300px
       .uercover
         position: absolute
         width: 100%
-        height: 45%
+        height: 43%
         background-size: cover
       .userpic-wrapper
         z-index: 50
         width: 100%
+        height: 100%
         text-align: center
         .userpic
           position: relative
@@ -181,8 +203,9 @@ import {mapGetters,mapActions} from 'vuex';
     .content
       width: 100%
       margin-top:100px
+      margin: 0
       .content-wrapper
-        padding: 20px;
+        padding: 20px
         .item
           display: flex
           padding: 5px

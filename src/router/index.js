@@ -9,6 +9,12 @@ import Password from 'components/password/password'
 import Favor from 'components/favor/favor'
 import Reg from 'components/reg/reg'
 import Login from 'components/login/login'
+import Classifylist from 'components/classifylist/classifylist'
+import Detail from 'components/detail/detail'
+import Content from 'components/content/content'
+import Article from 'components/article/article'
+import Search from 'components/search/search'
+import Comments from 'components/comments/comments'
 
 Vue.use(Router)
 
@@ -53,6 +59,30 @@ export default new Router({
     {
       path: '/login',
       component: Login
+    },
+    {
+      path: '/classifylist',
+      component: Classifylist
+    },
+    {
+      path: '/detail',
+      component: Detail
+    },
+    {
+      path: '/content',
+      component: Content
+    },
+    {
+      path: '/article',
+      component: Article
+    },
+    {
+      path: '/search',
+      component: Search
+    },
+    {
+      path: '/comments',
+      component: Comments
     }
   ]
 })

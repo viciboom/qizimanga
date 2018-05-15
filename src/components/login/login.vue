@@ -52,7 +52,6 @@ import {mapGetters,mapActions} from 'vuex';
 							//LOGIN success
 							window.sessionStorage.userInfo = JSON.stringify(_this.userInfo);
               _this.$store.dispatch('setUserInfo', _this.userInfo);
-              console.log(_this.$store);
               let redirect = decodeURIComponent(_this.$route.query.redirect || '/');
               _this.$router.push({
                   path: redirect
